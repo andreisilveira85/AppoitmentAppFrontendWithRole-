@@ -1,0 +1,24 @@
+<div class="appointment-container">
+  <h2 *ngIf="userRole === 'PATIENT'">Minhas Consultas</h2>
+  <h2 *ngIf="userRole !== 'PATIENT'">Gerenciamento de Consultas</h2>
+  <div *ngIf="canCreate()">
+    <form #appointmentForm="ngForm" (ngSubmit)="onSubmit(appointmentForm)">
+      <label for="dateTime">Data e Hora:</label>
+      <input type="datetime-local" id="dateTime" name="dateTime" [(ngModel)]="newAppointment.dateTime" required>
+      <label for="reason">Motivo:</label>
+      <input type="text" id="reason" name="reason" [(ngModel)]="newAppointment.reason" required>
+      <button type="submit">Agendar Consulta</button>
+    </form>
+  </div>
+  <div class="appointment-list">
+    <ul>
+      <li *ngFor="let appointment of appointments">
+        <span>{{ appointment.dateTime }} - {{ appointment.reason }}</span>
+        <button *ngIf="canDelete()" (click)="confirmDeletion(appointment.id)">Deletar</button>
+      </li>
+    </ul>
+  </div>
+  <div class="logout-button">
+    <button (click)="logout()">Logout</button>
+  </div>
+</div>
